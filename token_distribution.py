@@ -199,16 +199,17 @@ class TokenDistributionProcessor:
                     
                 writer.writerow(row)
                 
-            # Add summary row
+            # Add summary section with proper column alignment (pad all rows to 18 columns)
             summary = self.generate_summary()
-            writer.writerow([])
-            writer.writerow(['SUMMARY STATISTICS'])
-            writer.writerow(['Total Projects', summary.total_projects])
-            writer.writerow(['Total Funding (USD)', f"${summary.total_funding_usd:,.2f}"])
-            writer.writerow(['Total Tokens', f"{summary.total_tokens:,.2f}"])
-            writer.writerow(['Total Project Tokens (50%)', f"{summary.total_project_tokens:,.2f}"])
-            writer.writerow(['Total Participant Tokens (30%)', f"{summary.total_participant_tokens:,.2f}"])
-            writer.writerow(['Total Auditor Tokens (20%)', f"{summary.total_auditor_tokens:,.2f}"])
+            empty_cols = [''] * 16  # 16 empty columns to make 18 total
+            
+            writer.writerow(['SUMMARY STATISTICS'] + empty_cols + [''])
+            writer.writerow(['Total Projects', summary.total_projects] + empty_cols)
+            writer.writerow(['Total Funding (USD)', f"${summary.total_funding_usd:,.2f}"] + empty_cols)
+            writer.writerow(['Total Tokens', f"{summary.total_tokens:,.2f}"] + empty_cols)
+            writer.writerow(['Total Project Tokens (50%)', f"{summary.total_project_tokens:,.2f}"] + empty_cols)
+            writer.writerow(['Total Participant Tokens (30%)', f"{summary.total_participant_tokens:,.2f}"] + empty_cols)
+            writer.writerow(['Total Auditor Tokens (20%)', f"{summary.total_auditor_tokens:,.2f}"] + empty_cols)
             
         print(f"CSV export completed: {output_path}")
         
