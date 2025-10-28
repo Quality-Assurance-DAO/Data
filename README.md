@@ -2,6 +2,10 @@
 
 This repository implements a **Token Distribution Framework** prototype applied to Cardano's Catalyst Fund 5 Developer Ecosystem data, demonstrating how blockchain treasury funding can be structured with milestone-based token allocations across multiple stakeholder categories.
 
+## Wiki
+
+https://github.com/Quality-Assurance-DAO/Token-Distribution-Framework/wiki
+
 ## Overview
 
 The repository combines:
