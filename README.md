@@ -9,6 +9,36 @@ The repository combines:
 2. **Catalyst Fund 5 Data** - Real funding data from 24 successful Cardano developer ecosystem proposals
 3. **Two Vesting Implementations** - Pure milestone-based and hybrid time+milestone approaches
 4. **Python Scripts** - Automated processing and allocation calculation with dual output formats
+5. **Interactive Web Dashboard** - Visual exploration of vesting schedules with charts and comparisons
+
+## 📊 Interactive Dashboard
+
+**[🚀 View Live Dashboard →](https://qadao.io/Token-Distribution-Framework/dashboard/)**
+
+Explore the token vesting schedules through an interactive web dashboard featuring:
+
+- **Real-Time Visualizations** - 6 interactive Chart.js charts showing cumulative vesting, token distribution, and vesting rates
+- **Compare Approaches** - Toggle between Pure Milestone, Hybrid Vesting, or side-by-side comparison
+- **24 Real Projects** - Explore all funded Catalyst Fund 5 projects with search and filtering
+- **Scenario Simulator** - Interactive timeline slider to simulate vesting at any point (months 0-12)
+- **Portfolio View** - Aggregate vesting across all projects for treasury planning
+- **Fully Responsive** - Works on desktop, tablet, and mobile devices
+
+**Key Features:**
+- Zero installation required - runs directly in your browser
+- Filter projects by size (< $10k, $10k-$50k, > $50k)
+- Sort by name, funding amount, or total tokens
+- Hover tooltips with exact token amounts
+- Data tables with milestone/monthly breakdowns
+- Compare Pure vs Hybrid at any timeline position
+
+**Perfect for:**
+- Treasury managers planning fund distributions
+- Project proposers choosing vesting approaches  
+- Stakeholders understanding token economics
+- Researchers analyzing vesting patterns
+
+→ **[Launch Dashboard](https://qadao.io/Token-Distribution-Framework/dashboard/)** to start exploring!
 
 ## Two Vesting Approaches
 
@@ -183,6 +213,15 @@ Both scripts process all 24 funded projects and display summary statistics.
 ### Implementation Scripts
 - **`token_distribution.py`** - Pure milestone vesting implementation
 - **`token_distribution_hybrid.py`** - Hybrid vesting implementation (Cliff + Milestone + Linear)
+
+### Interactive Dashboard
+- **`dashboard/`** - Complete web application for visualizing vesting schedules
+  - `index.html` - Main dashboard page
+  - `css/` - Responsive stylesheets
+  - `js/` - Interactive chart and data handling logic
+  - `data/` - JSON data files (pure & hybrid)
+  - `README.md` - Dashboard-specific documentation
+  - **[Live Dashboard](https://qadao.io/Token-Distribution-Framework/dashboard/)** - Hosted version
 
 ### Generated Outputs
 
