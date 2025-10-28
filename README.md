@@ -19,6 +19,30 @@ Based on the framework outlined in `Project-AMM.md`, this system distributes tok
 - **Participant Tokens (30%)** - Rewards for developers, contributors, and team members
 - **Auditor Tokens (20%)** - Compensation for verification services and milestone auditing
 
+#### Understanding the Stakeholders
+
+**What is a Project?**  
+A Project represents the core entity receiving treasury funding to build a product, service, or infrastructure. In the Catalyst Fund 5 context, projects include things like SDK development, API services, wallet integrations, and developer tools. The project entity manages the overall execution, deliverables, and is accountable for achieving milestones. Project tokens provide operational liquidity for expenses like infrastructure, licenses, third-party services, and general operating costs.
+
+**What is a Participant?**  
+Participants are the individuals actively contributing work to the project. This includes:
+- **Developers** writing code and building features
+- **Designers** creating user interfaces and experiences
+- **Technical writers** producing documentation
+- **Community managers** handling communication and support
+- **Early adopters** testing and providing feedback
+
+Participant tokens reward these contributors for their labor and expertise, aligning their incentives with project success. These tokens can vest over time to encourage long-term commitment and reduce churn.
+
+**What is an Auditor?**  
+Auditors are independent third parties who verify that projects are meeting their milestones and delivering on their promises. Their role includes:
+- **Milestone verification** - Confirming deliverables match stated goals
+- **Code review** - Assessing quality and security of implementations
+- **Progress reporting** - Providing transparent updates to the community
+- **Quality assurance** - Ensuring projects maintain standards
+
+Auditor tokens compensate these verification services and create accountability in the funding ecosystem. By having independent auditors with financial incentive (but separate from the project team), the system maintains integrity while reducing conflicts of interest.
+
 ### Milestone-Based Vesting
 
 Tokens are released incrementally across 4 milestones to ensure accountability and incentivize progress:
