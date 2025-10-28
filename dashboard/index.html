@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Distribution Vesting Dashboard</title>
+    <meta name="description" content="Interactive dashboard visualizing token vesting schedules for Catalyst Fund 5 projects">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/charts.css">
+    
+    <!-- Chart.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1 class="header-title">Token Distribution Dashboard</h1>
+                    <p class="header-subtitle">Catalyst Fund 5 • Developer Ecosystem</p>
+                </div>
+                <div class="header-right">
+                    <div class="approach-selector">
+                        <button id="btnPureMilestone" class="approach-btn active" data-approach="pure">
+                            <span class="approach-label">Pure Milestone</span>
+                            <span class="approach-desc">Achievement-based</span>
+                        </button>
+                        <button id="btnHybridVesting" class="approach-btn" data-approach="hybrid">
+                            <span class="approach-label">Hybrid Vesting</span>
+                            <span class="approach-desc">Time + Achievement</span>
+                        </button>
+                        <button id="btnComparison" class="approach-btn" data-approach="comparison">
+                            <span class="approach-label">Compare Both</span>
+                            <span class="approach-desc">Side by side</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">Project Selection</h3>
+                <div class="project-search">
+                    <input type="text" id="projectSearch" class="search-input" placeholder="Search projects...">
+                </div>
+                <select id="projectSelector" class="project-selector" size="10">
+                    <option value="all">All Projects (Portfolio View)</option>
+                    <!-- Projects will be populated by JavaScript -->
+                </select>
+            </div>
+
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">Filters</h3>
+                <div class="filter-group">
+                    <label class="filter-label">Project Size</label>
+                    <select id="filterSize" class="filter-select">
+                        <option value="all">All Sizes</option>
+                        <option value="small">< $10,000</option>
+                        <option value="medium">$10,000 - $50,000</option>
+                        <option value="large">> $50,000</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Sort By</label>
+                    <select id="sortBy" class="filter-select">
+                        <option value="name">Project Name</option>
+                        <option value="funding-asc">Funding (Low to High)</option>
+                        <option value="funding-desc">Funding (High to Low)</option>
+                        <option value="tokens">Total Tokens</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="sidebar-section" id="scenarioSection" style="display: none;">
+                <h3 class="sidebar-title">Scenario Simulator</h3>
+                <div class="slider-group">
+                    <label class="slider-label">Timeline: <span id="monthLabel">Month 0</span></label>
+                    <input type="range" id="monthSlider" class="month-slider" min="0" max="12" value="0" step="1">
+                    <div class="slider-legend">
+                        <span>Start</span>
+                        <span>End</span>
+                    </div>
+                </div>
+                <div class="scenario-stats" id="scenarioStats">
+                    <!-- Stats will be populated by JavaScript -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-state">
+                <div class="spinner"></div>
+                <p>Loading vesting data...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="error-state" style="display: none;">
+                <p>Error loading data. Please refresh the page.</p>
+            </div>
+
+            <!-- Summary Cards -->
+            <div id="summaryCards" class="summary-cards" style="display: none;">
+                <div class="summary-card">
+                    <div class="card-icon">📊</div>
+                    <div class="card-content">
+                        <div class="card-value" id="totalProjects">24</div>
+                        <div class="card-label">Total Projects</div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-icon">💰</div>
+                    <div class="card-content">
+                        <div class="card-value" id="totalFunding">$588,202</div>
+                        <div class="card-label">Total Funding</div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-icon">🪙</div>
+                    <div class="card-content">
+                        <div class="card-value" id="totalTokens">588,202</div>
+                        <div class="card-label">Total Tokens</div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-icon">📈</div>
+                    <div class="card-content">
+                        <div class="card-value" id="vestingType">Pure Milestone</div>
+                        <div class="card-label">Vesting Approach</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Details -->
+            <div id="projectDetails" class="project-details" style="display: none;">
+                <h2 id="projectTitle" class="project-title"></h2>
+                <div class="project-meta">
+                    <span class="meta-item"><strong>Funding:</strong> <span id="projectFunding"></span></span>
+                    <span class="meta-item"><strong>Total Tokens:</strong> <span id="projectTokens"></span></span>
+                </div>
+                <div class="token-breakdown">
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Project Tokens (50%)</span>
+                        <span class="breakdown-value" id="projectTokenValue"></span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Participant Tokens (30%)</span>
+                        <span class="breakdown-value" id="participantTokenValue"></span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="breakdown-label">Auditor Tokens (20%)</span>
+                        <span class="breakdown-value" id="auditorTokenValue"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Grid -->
+            <div id="chartsContainer" class="charts-grid" style="display: none;">
+                <!-- Chart 1: Vesting Timeline -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Cumulative Vesting Timeline</h3>
+                        <p class="chart-subtitle">Token accumulation over time</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chartTimeline"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Token Distribution -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Token Category Distribution</h3>
+                        <p class="chart-subtitle">50% Project, 30% Participant, 20% Auditor</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chartDistribution"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 3: Vesting Rate (Hybrid Only) -->
+                <div class="chart-card" id="chartRateCard" style="display: none;">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Monthly Vesting Rate</h3>
+                        <p class="chart-subtitle">Tokens vested per month</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chartRate"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 4: Comparison (Comparison Mode) -->
+                <div class="chart-card chart-card-wide" id="chartComparisonCard" style="display: none;">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Pure Milestone vs Hybrid Vesting</h3>
+                        <p class="chart-subtitle">Side-by-side comparison</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chartComparison"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 5: Category Breakdown -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Category Vesting Breakdown</h3>
+                        <p class="chart-subtitle">Project, Participant, Auditor timelines</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chartCategories"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div id="dataTable" class="data-table-container" style="display: none;">
+                <h3 class="table-title">Vesting Schedule Details</h3>
+                <div class="table-responsive">
+                    <table id="vestingTable" class="vesting-table">
+                        <thead id="tableHead">
+                            <!-- Will be populated by JavaScript -->
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <p>Token Distribution Framework • Catalyst Fund 5 Developer Ecosystem</p>
+                    <p class="footer-meta">Data: 24 funded projects • Total: $588,202</p>
+                </div>
+                <div class="footer-right">
+                    <p>Last Updated: <span id="lastUpdated">October 2025</span></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/data-loader.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/project-selector.js"></script>
+    <script src="js/comparison.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
+

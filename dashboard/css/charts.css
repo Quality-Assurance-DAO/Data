@@ -1,0 +1,194 @@
+/* Chart-specific Styles */
+
+/* Chart Container Sizing */
+.chart-container canvas {
+    max-width: 100%;
+    height: auto !important;
+}
+
+/* Chart Legend Customization */
+.chart-card .chartjs-legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.chart-card .chartjs-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+
+.chart-card .chartjs-legend-item-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+}
+
+/* Chart Tooltips */
+.chartjs-tooltip {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 6px;
+    color: white;
+    font-family: inherit;
+    font-size: 0.875rem;
+    padding: 0.75rem;
+    pointer-events: none;
+    position: absolute;
+    transform: translate(-50%, -110%);
+    white-space: nowrap;
+    z-index: 100;
+}
+
+.chartjs-tooltip-key {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 0.5rem;
+    border-radius: 2px;
+}
+
+/* Loading State for Charts */
+.chart-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    color: var(--text-light);
+    font-size: 0.875rem;
+}
+
+/* Empty State for Charts */
+.chart-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    color: var(--text-light);
+    text-align: center;
+    padding: 2rem;
+}
+
+.chart-empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.chart-empty-text {
+    font-size: 0.875rem;
+}
+
+/* Chart Type Badges */
+.chart-type-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.chart-type-badge.pure {
+    background: rgba(139, 92, 246, 0.1);
+    color: var(--pure-color);
+}
+
+.chart-type-badge.hybrid {
+    background: rgba(236, 72, 153, 0.1);
+    color: var(--hybrid-color);
+}
+
+/* Chart Actions */
+.chart-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.chart-action-btn {
+    padding: 0.5rem 1rem;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chart-action-btn:hover {
+    background: var(--border);
+}
+
+/* Comparison Chart Specific */
+.comparison-legend {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: var(--background);
+    border-radius: 0.5rem;
+}
+
+.comparison-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.comparison-legend-color {
+    width: 20px;
+    height: 4px;
+    border-radius: 2px;
+}
+
+.comparison-legend-label {
+    font-weight: 600;
+}
+
+/* Chart Annotations */
+.chart-annotation {
+    position: absolute;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    pointer-events: none;
+    box-shadow: 0 2px 4px var(--shadow);
+}
+
+.chart-annotation.milestone {
+    border-left: 3px solid var(--pure-color);
+}
+
+.chart-annotation.cliff {
+    border-left: 3px solid #EF4444;
+}
+
+/* Responsive Chart Adjustments */
+@media (max-width: 768px) {
+    .chart-container {
+        height: 250px;
+    }
+    
+    .chart-card .chartjs-legend {
+        font-size: 0.75rem;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-container {
+        height: 200px;
+    }
+}
+
